@@ -43,7 +43,7 @@ python manage.py test
 
 ## Reporting Issues
 
-If you encounter any issues or have suggestions, please [open an issue](https://github.com/yourusername/flavorly/issues) on GitHub.
+If you encounter any issues or have suggestions, please [open an issue](https://github.com/AlzyWelzy/flavorly/issues) on GitHub.
 
 ## Thank You!
 
