@@ -14,15 +14,15 @@ def index(request):
 
 
 def signup_view(request):
-    pass
+    return render(request, "app/signup.html")
 
 
 def signin_view(request):
-    pass
+    return render(request, "app/signin.html")
 
 
 def dashboard_view(request):
-    pass
+    return render(request, "app/dashboard.html")
 
 
 # Create your views here.
