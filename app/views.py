@@ -18,6 +18,12 @@ def index(request):
     return render(request, "app/index.html")
 
 
+@login_required(login_url="login")
+def my_account(request):
+    user = request.user
+    return render(request, "app/my_account.html")
+
+
 def dashboard_view(request):
     return render(request, "app/dashboard.html")
 
