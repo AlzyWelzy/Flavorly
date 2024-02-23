@@ -10,24 +10,8 @@
 
 
 {% block content %}
-   <div>
-        <nav>
-            <ul>
-                <li><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
-    <div>
 
-            {% if user.userprofilemodel.profile_picture %}
-      <img src="{{ user.userprofilemodel.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture">
-    {% else %}
-      <p>No profile picture available</p>
-    {% endif %}
+
+
 <p> Welcome to Flavorly! </p>
 {% endblock %}
