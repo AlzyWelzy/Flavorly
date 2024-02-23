@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterForm
+from .forms import RegisterForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from .models import UserProfileModel
 from .models import UserProfileModel
 
 # Create your views here.
@@ -31,15 +32,32 @@ def register(response):
         if form.is_valid():
             user = form.save()
 
+            UserProfileModel.objects.create(
+                user=user,
+                full_name=form.cleaned_data["full_name"],
+                email=form.cleaned_data["email"],
+            )
+
             login(response, user)
-            print(user)
 
-            UserProfileModel.objects.create(user=user)
-
-            messages.success(response, "Registration Successful!")
             return redirect("index")
 
     else:
         form = RegisterForm()
 
     return render(response, "app/register.html", {"form": form})
+
+
+@login_required(login_url="login")
+def edit_profile(request):
+    user_profile = request.user.userprofilemodel
+
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect("edit_profile")  # Redirect to the user's profile page
+    else:
+        form = UserProfileForm(instance=user_profile)
+
+    return render(request, "app/edit_profile.html", {"form": form})
