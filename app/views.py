@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterForm, UserProfileForm
+from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .models import UserProfileModel
@@ -13,12 +13,8 @@ from .models import UserProfileModel
 
 @login_required(login_url="login")
 def index(request):
+
     return render(request, "app/index.html")
-
-
-def signin_view(request):
-
-    return render(request, "app/signin.html")
 
 
 def dashboard_view(request):
@@ -50,7 +46,7 @@ def register(response):
 
 @login_required(login_url="login")
 def edit_profile(request):
-    user_profile = request.user.userprofilemodel
+    user_profile = request.user
 
     if request.method == "POST":
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
@@ -59,5 +55,20 @@ def edit_profile(request):
             return redirect("edit_profile")  # Redirect to the user's profile page
     else:
         form = UserProfileForm(instance=user_profile)
+
+    return render(request, "app/edit_profile.html", {"form": form})
+
+
+@login_required(login_url="login")
+def add_profile_picture(request):
+    if request.method == "POST":
+        form = AddProfilePictureForm(
+            request.POST, request.FILES, instance=request.user.userprofilemodel
+        )
+        if form.is_valid():
+            form.save()
+            return redirect("edit_profile")  # Redirect to the user's profile page
+    else:
+        form = AddProfilePictureForm(instance=request.user.userprofilemodel)
 
     return render(request, "app/edit_profile.html", {"form": form})

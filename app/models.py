@@ -9,8 +9,6 @@ class UserProfileModel(models.Model):
     profile_picture = models.ImageField(
         upload_to="profile_picture", blank=True, null=True
     )
-    full_name = models.CharField(max_length=255, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username
