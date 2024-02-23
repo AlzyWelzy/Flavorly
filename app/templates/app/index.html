@@ -1,11 +1,11 @@
-{% extends "base.html" %} {% load static %} {% block title %}Igniting Culinary Creativity, One Recipe at a Time{% endblock %}
+{% extends "base.html" %} {% load static %} {% block page_title %}Igniting Culinary Creativity, One Recipe at a Time{% endblock %}
 
-{% block css %}
-<link rel="stylesheet" type="text/css" href="{% static 'app/css/index.css' %}">
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'app/css/index.css' %}">
 {% endblock %}
 
-{% block js %}
-<script src="{% static 'app/js/index.js' %}"></script>
+{% block js_files %}
+<script defer src="{% static 'app/js/index.js' %}"></script>
 {% endblock %}
 
 
