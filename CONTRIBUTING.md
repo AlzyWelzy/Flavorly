@@ -45,9 +45,8 @@ python manage.py test
 
 If you encounter any issues or have suggestions, please [open an issue](https://github.com/AlzyWelzy/flavorly/issues) on GitHub.
 
-## Thank You!
+## Thank You
 
 Thank you for contributing to Flavorly. Your efforts help make this community vibrant and diverse.
 
 Happy coding! 🚀
-
