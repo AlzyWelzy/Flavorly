@@ -13,6 +13,18 @@ def index(request):
     return render(request, "app/index.html")
 
 
+def signup_view(request):
+    pass
+
+
+def signin_view(request):
+    pass
+
+
+def dashboard_view(request):
+    pass
+
+
 # Create your views here.
 def register(response):
     if response.method == "POST":
