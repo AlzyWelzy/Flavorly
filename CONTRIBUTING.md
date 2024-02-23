@@ -39,3 +39,15 @@ Make sure your changes include appropriate tests. Run existing tests using:
 
 ```bash
 python manage.py test
+```
+
+## Reporting Issues
+
+If you encounter any issues or have suggestions, please [open an issue](https://github.com/yourusername/flavorly/issues) on GitHub.
+
+## Thank You!
+
+Thank you for contributing to Flavorly. Your efforts help make this community vibrant and diverse.
+
+Happy coding! 🚀
+
