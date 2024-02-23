@@ -68,7 +68,8 @@ def add_profile_picture(request):
             form.save()
             return redirect("edit_profile")  # Redirect to the user's profile page
     else:
-        form = AddProfilePictureForm(instance=request.user.userprofilemodel)
+        # form = AddProfilePictureForm(instance=request.user.userprofilemodel)
+        form = AddProfilePictureForm()
 
     return render(request, "app/edit_profile.html", {"form": form})
 
