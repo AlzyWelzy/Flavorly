@@ -22,28 +22,6 @@ def dashboard_view(request):
     return render(request, "app/dashboard.html")
 
 
-def my_login(request):
-    form = LoginForm()
-
-    if request.method == "POST":
-        form = LoginForm(request, data=request.POST)
-
-        if form.is_valid():
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect("index")
-            else:
-                messages.info(request, "Username or Password is incorrect")
-    context = {"form": form}
-
-    return render(request, "app/signin.html", context)
-
-
 # Create your views here.
 def register(response):
     if response.method == "POST":
@@ -62,7 +40,7 @@ def register(response):
     else:
         form = RegisterForm()
 
-    return render(response, "app/register.html", {"form": form})
+    return render(response, "registration/register.html", {"form": form})
 
 
 @login_required(login_url="login")
@@ -93,3 +71,29 @@ def add_profile_picture(request):
         form = AddProfilePictureForm(instance=request.user.userprofilemodel)
 
     return render(request, "app/edit_profile.html", {"form": form})
+
+
+"""
+Template for login (temporary)
+Not used anymore
+"""
+# def my_login(request):
+#     form = LoginForm()
+
+#     if request.method == "POST":
+#         form = LoginForm(request, data=request.POST)
+
+#         if form.is_valid():
+#             username = request.POST.get("username")
+#             password = request.POST.get("password")
+
+#             user = authenticate(request, username=username, password=password)
+
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect("index")
+#             else:
+#                 messages.info(request, "Username or Password is incorrect")
+#     context = {"form": form}
+
+#     return render(request, "app/signin.html", context)
