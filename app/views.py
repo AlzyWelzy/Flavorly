@@ -23,14 +23,15 @@ def dashboard(request):
 
 
 @login_required
-def create_post(request):
+def post_recipe(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             food_post = form.save(commit=False)
+            print(food_post.picture)
             food_post.author = request.user
             food_post.save()
-            return redirect("dashboard")
+            return redirect("index")
 
     else:
         form = PostForm()
