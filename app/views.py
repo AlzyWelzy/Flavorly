@@ -17,6 +17,24 @@ def dashboard(request):
 
 
 @login_required
+def create_post(request):
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            food_post = form.save(commit=False)
+            food_post.author = request.user
+            food_post.save()
+            return redirect("dashboard")
+
+    else:
+        form = PostForm()
+
+    context = {"form": form}
+
+    return render(request, "app/create_post.html", context)
+
+
+@login_required
 def my_account(request):
     user = request.user
     return render(request, "app/my_account.html")
