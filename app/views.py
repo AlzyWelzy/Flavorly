@@ -26,10 +26,10 @@ def dashboard(request):
 def post_recipe(request):
     if request.method == "POST":
         form = PostRecipe(request.POST, request.FILES)
+        user = request.user
         if form.is_valid():
             food_post = form.save(commit=False)
-            print(food_post.picture)
-            food_post.author = request.user
+            food_post.author = user
             food_post.save()
             return redirect("index")
 
