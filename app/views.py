@@ -21,8 +21,6 @@ def recipe_detail(request, pk):
 def dashboard(request):
     recipes = RecipeModel.objects.filter(author=request.user)
 
-    print(recipes)
-
     context = {"recipes": recipes}
 
     return render(request, "app/dashboard.html", context)
@@ -37,7 +35,7 @@ def post_recipe(request):
             food_post = form.save(commit=False)
             food_post.author = user
             food_post.save()
-            return redirect("index")
+            return redirect("dashboard")
 
     else:
         form = RecipeForm()

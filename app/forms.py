@@ -32,4 +32,11 @@ class UserProfileForm(forms.ModelForm):
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = RecipeModel
-        fields = ["title", "description", "picture"]
+        fields = [
+            "title",
+            "type",
+            "description",
+            "ingredients",
+            "instructions",
+            "picture",
+        ]

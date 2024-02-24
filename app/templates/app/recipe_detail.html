@@ -24,23 +24,15 @@
 
             <div class="mt-3">
                 <p><strong>Ingredients:</strong></p>
-                <ul>
-                    {% for ingredient in recipe.ingredients.all %}
-                        <li>{{ ingredient.name }}</li>
-                    {% endfor %}
-                </ul>
+                <p>{{ recipe.ingredients|linebreaks }}</p>
             </div>
 
             <div class="mt-3">
                 <p><strong>Instructions:</strong></p>
-                <ol>
-                    {% for step in recipe.instructions.all %}
-                        <li>{{ step.description }}</li>
-                    {% endfor %}
-                </ol>
+                <p>{{ recipe.instructions|linebreaks }}</p>
             </div>
 
-            <!-- Add more sections or details as necessary -->
+
         </div>
     </div>
 </div>
