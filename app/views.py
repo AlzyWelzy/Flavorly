@@ -11,6 +11,12 @@ def index(request):
     return render(request, "app/index.html")
 
 
+def recipe_detail(request, pk):
+    recipe = RecipeModel.objects.get(id=pk)
+    context = {"recipe": recipe}
+    return render(request, "app/recipe_detail.html", context)
+
+
 @login_required
 def dashboard(request):
     recipes = RecipeModel.objects.filter(author=request.user)
