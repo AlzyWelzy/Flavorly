@@ -14,7 +14,7 @@ from verify_email.email_handler import send_verification_email
 def activateEmail(request, user, to_email):
     messages.success(
         request,
-        f"Your account has been created. We have sent you an email to {to_email}. Please confirm your email to continue.",
+        f"Account successfully created for {user}. An email has been sent to {to_email} with instructions to activate the account.",
     )
 
 
@@ -35,30 +35,32 @@ def my_account(request):
 
 
 # Create your views here.
-def register(response):
+def register(request):
 
-    if response.user.is_authenticated:
+    if request.user.is_authenticated:
         return redirect("dashboard")
 
-    if response.method == "POST":
-        form = RegisterForm(response.POST)
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            inactive_user = send_verification_email(request, form)
+            activateEmail(request, inactive_user, form.cleaned_data.get("email"))
+            # user = form.save()
 
-            user.save()
+            # user.save()
 
-            UserProfileModel.objects.create(
-                user=user,
-            )
+            # UserProfileModel.objects.create(
+            #     user=user,
+            # )
 
-            login(response, user)
+            # login(request, user)
 
-            return redirect("dashboard")
+            return redirect("login")
 
     else:
         form = RegisterForm()
 
-    return render(response, "registration/register.html", {"form": form})
+    return render(request, "registration/register.html", {"form": form})
 
 
 @login_required(login_url="login")
