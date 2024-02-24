@@ -1,21 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .models import UserProfileModel
 from django.contrib.auth.models import auth
+from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostForm
 
 ...
 from verify_email.email_handler import send_verification_email
-
-
-def activateEmail(request, user, to_email):
-    messages.success(
-        request,
-        f"Account successfully created for {user}. An email has been sent to {to_email} with instructions to activate the account. Please check your spam folder. The link will expire in 15 minutes.",
-    )
+from .utils import activateEmail
 
 
 def index(request):

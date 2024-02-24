@@ -19,11 +19,14 @@ class UserProfileModel(AbstractUser):
 
 
 class FoodModel(models.Model):
-    user = models.ForeignKey(UserProfileModel, on_delete=models.CASCADE)
-    food_name = models.CharField(max_length=100)
+    author = models.ForeignKey(UserProfileModel, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
     description = models.TextField()
-    food_type = models.CharField(max_length=100)
-    food_picture = models.ImageField(upload_to="food_picture", blank=True, null=True)
+    type = models.CharField(max_length=100)
+    picture = models.ImageField(upload_to="food_picture", blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.food_name
+        return self.title
