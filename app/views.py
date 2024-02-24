@@ -5,32 +5,14 @@ from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, LoginFo
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .models import UserProfileModel
-from .decorators import user_not_authenticated
 from django.contrib.auth.models import auth
 
 
-# Create your views here.
-
-# def activate(request, uidb64, token):
-#     try:
-#         uid = auth.urlsafe_base64_decode(uidb64).decode()
-#         user = auth.get_user_model().objects.get(pk=uid)
-#     except (TypeError, ValueError, OverflowError, auth.ObjectDoesNotExist):
-#         user = None
-
-#     if user is not None and auth.default_token_generator.check_token(user, token):
-#         user.is_active = True
-#         user.save()
-#         messages.success(request, "Account activated successfully")
-#         return redirect("login")
-#     else:
-#         messages.error(request, "Invalid activation link")
-#         return redirect("login")
-
-
-# @login_required(login_url="login")
-# def is_logged_in(request):
-#     return redirect("dashboard") if request.user.is_authenticated else False
+def activateEmail(request, user, to_email):
+    messages.success(
+        request,
+        f"Your account has been created. We have sent you an email to {to_email}. Please confirm your email to continue.",
+    )
 
 
 def index(request):
@@ -65,6 +47,8 @@ def register(response):
             UserProfileModel.objects.create(
                 user=user,
             )
+
+            activateEmail(response, user, form.cleaned_data.get("email"))
 
             # login(response, user)
 
@@ -105,29 +89,3 @@ def add_profile_picture(request):
         form = AddProfilePictureForm()
 
     return render(request, "app/edit_profile.html", {"form": form})
-
-
-"""
-Template for login (temporary)
-Not used anymore
-"""
-# def my_login(request):
-#     form = LoginForm()
-
-#     if request.method == "POST":
-#         form = LoginForm(request, data=request.POST)
-
-#         if form.is_valid():
-#             username = request.POST.get("username")
-#             password = request.POST.get("password")
-
-#             user = authenticate(request, username=username, password=password)
-
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect("index")
-#             else:
-#                 messages.info(request, "Username or Password is incorrect")
-#     context = {"form": form}
-
-#     return render(request, "app/signin.html", context)
