@@ -123,6 +123,7 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+AUTH_USER_MODEL = "app.UserProfileModel"
 
 
 # Static files (CSS, JavaScript, Images)

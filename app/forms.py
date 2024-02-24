@@ -1,14 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfileModel
-from django.forms.widgets import PasswordInput, TextInput
 
 
 class RegisterForm(UserCreationForm):
 
     class Meta:
-        model = User
+        model = UserProfileModel
         fields = [
             "first_name",
             "last_name",
@@ -27,10 +25,5 @@ class AddProfilePictureForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = UserProfileModel
         fields = ["first_name", "last_name", "email"]
-
-
-class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=TextInput())
-    password = forms.CharField(widget=PasswordInput())

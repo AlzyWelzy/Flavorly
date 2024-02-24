@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, LoginForm
+from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .models import UserProfileModel
@@ -81,9 +81,7 @@ def edit_profile(request):
 @login_required(login_url="login")
 def add_profile_picture(request):
     if request.method == "POST":
-        form = AddProfilePictureForm(
-            request.POST, request.FILES, instance=request.user.userprofilemodel
-        )
+        form = AddProfilePictureForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect("edit_profile")  # Redirect to the user's profile page
