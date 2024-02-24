@@ -10,13 +10,13 @@ def index(request):
     return render(request, "app/index.html")
 
 
-@login_required(login_url="login")
+@login_required
 def dashboard(request):
 
     return render(request, "app/dashboard.html")
 
 
-@login_required(login_url="login")
+@login_required
 def my_account(request):
     user = request.user
     return render(request, "app/my_account.html")
@@ -51,7 +51,7 @@ def register(request):
     return render(request, "registration/register.html", {"form": form})
 
 
-@login_required(login_url="login")
+@login_required
 def edit_profile(request):
     user_profile = request.user
 
@@ -66,7 +66,7 @@ def edit_profile(request):
     return render(request, "app/edit_profile.html", {"form": form})
 
 
-@login_required(login_url="login")
+@login_required
 def add_profile_picture(request):
     if request.method == "POST":
         form = AddProfilePictureForm(request.POST, request.FILES, instance=request.user)
