@@ -5,11 +5,27 @@ from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, LoginFo
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from .models import UserProfileModel
-
+from .decorators import user_not_authenticated
 from django.contrib.auth.models import auth
 
 
 # Create your views here.
+
+# def activate(request, uidb64, token):
+#     try:
+#         uid = auth.urlsafe_base64_decode(uidb64).decode()
+#         user = auth.get_user_model().objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, auth.ObjectDoesNotExist):
+#         user = None
+
+#     if user is not None and auth.default_token_generator.check_token(user, token):
+#         user.is_active = True
+#         user.save()
+#         messages.success(request, "Account activated successfully")
+#         return redirect("login")
+#     else:
+#         messages.error(request, "Invalid activation link")
+#         return redirect("login")
 
 
 @login_required(login_url="login")
@@ -29,6 +45,7 @@ def dashboard_view(request):
 
 
 # Create your views here.
+@user_not_authenticated
 def register(response):
     if response.method == "POST":
         form = RegisterForm(response.POST)
