@@ -37,6 +37,7 @@ urlpatterns = [
     #     PasswordResetDoneView.as_view(template_name="password_reset_done.html"),
     #     name="password_reset_confirm",
     # ),
+    path("verification/", include("verify_email.urls")),
     path("", include("app.urls")),
 ]
 if settings.DEBUG:

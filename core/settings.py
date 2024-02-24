@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "verify_email.apps.VerifyEmailConfig",
     "crispy_forms",
     "crispy_bootstrap5",
     "app",
@@ -158,6 +159,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+PASSWORD_RESET_TIMEOUT = 14400
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 LOGGING = {

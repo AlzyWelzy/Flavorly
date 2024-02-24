@@ -7,6 +7,9 @@ from django.contrib.auth import login
 from .models import UserProfileModel
 from django.contrib.auth.models import auth
 
+...
+from verify_email.email_handler import send_verification_email
+
 
 def activateEmail(request, user, to_email):
     messages.success(
@@ -40,19 +43,17 @@ def register(response):
     if response.method == "POST":
         form = RegisterForm(response.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
+            user = form.save()
+
             user.save()
 
             UserProfileModel.objects.create(
                 user=user,
             )
 
-            activateEmail(response, user, form.cleaned_data.get("email"))
+            login(response, user)
 
-            # login(response, user)
-
-            return redirect("index")
+            return redirect("dashboard")
 
     else:
         form = RegisterForm()
