@@ -1,37 +1,39 @@
-    <nav class="navbar navbar-expand-lg  bg-light p-3">
-	    <div class="container-fluid">
-	      <a class="navbar-brand" href="{% url 'index' %}">Flavorly</a>
-	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="navbar-toggler-icon"></span>
-	      </button>
+<nav class="navbar navbar-expand-lg  bg-light p-3">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{% url 'index' %}">Flavorly</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+			aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	      <div class=" collapse navbar-collapse" id="navbarNavDropdown">
-	        <ul class="navbar-nav ms-auto ">
-	          <li class="nav-item">
-	            <a class="nav-link mx-2 active" aria-current="page" href="{% url 'index' %}">Home</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link mx-2" href="#">Products</a>
-	          </li>
-	          <li class="nav-item">
-	            <a class="nav-link mx-2" href="#">Pricing</a>
-	          </li>
-	          <li class="nav-item dropdown">
-	            <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {% if user.profile_picture %}
-      <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture" width="30" height="30">
+		<div class=" collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ms-auto ">
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" aria-current="page" href="{% url 'index' %}">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link mx-2" href="#">Products</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link mx-2" href="#">Pricing</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						{% if user.profile_picture %}
+						<img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s Profile Picture" width="30"
+							height="30">
 
-    {% endif %}
-	              My Profile
-	            </a>
-	            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li><a class="dropdown-item" href="{% url 'my_account' %}">My Account</a></li>
+						{% endif %}
+						My Profile
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<li><a class="dropdown-item" href="{% url 'my_account' %}">My Account</a></li>
 
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-	            </ul>
-	          </li>
-	        </ul>
-	      </div>
-	    </div>
-	    </nav>
-
+						<li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
