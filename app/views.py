@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from verify_email.email_handler import send_verification_email
 from .utils import activateEmail
-from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostRecipe
+from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, RecipeForm
 from .models import RecipeModel
 
 
@@ -31,7 +31,7 @@ def dashboard(request):
 @login_required
 def post_recipe(request):
     if request.method == "POST":
-        form = PostRecipe(request.POST, request.FILES)
+        form = RecipeForm(request.POST, request.FILES)
         user = request.user
         if form.is_valid():
             food_post = form.save(commit=False)
@@ -40,11 +40,34 @@ def post_recipe(request):
             return redirect("index")
 
     else:
-        form = PostRecipe()
+        form = RecipeForm()
 
     context = {"form": form}
 
     return render(request, "app/create_post.html", context)
+
+
+@login_required
+def update_recipe(request, pk):
+    recipe = RecipeModel.objects.get(id=pk)
+    if request.method == "POST":
+        form = RecipeForm(request.POST, request.FILES, instance=recipe)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+    else:
+        form = RecipeForm(instance=recipe)
+
+    return render(request, "app/create_post.html", {"form": form})
+
+
+@login_required
+def delete_recipe(request, pk):
+    recipe = RecipeModel.objects.get(id=pk)
+
+    if recipe.author == request.user:
+        recipe.delete()
+    return redirect("dashboard")
 
 
 @login_required

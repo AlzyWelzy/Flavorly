@@ -29,7 +29,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ["first_name", "last_name", "email"]
 
 
-class PostRecipe(forms.ModelForm):
+class RecipeForm(forms.ModelForm):
     class Meta:
         model = RecipeModel
         fields = ["title", "description", "picture"]

@@ -24,6 +24,8 @@
 
                     <div class="text-center mt-3">
                         <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">View Details</a>
+                        <a href="{% url 'update_recipe' recipe.id %}" class="btn btn-primary">Update Recipe</a>
+                        <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-primary">Delete Recipe</a>
                     </div>
                 </div>
             </div>
