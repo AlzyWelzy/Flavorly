@@ -38,6 +38,7 @@ def my_account(request):
 def register(request):
 
     if request.user.is_authenticated:
+        messages.info(request, "You are already logged in.")
         return redirect("dashboard")
 
     if request.method == "POST":
