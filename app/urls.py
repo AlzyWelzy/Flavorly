@@ -10,6 +10,4 @@ urlpatterns = [
     path("edit_profile/", views.edit_profile, name="edit_profile"),
     path("add_profile_picture/", views.add_profile_picture, name="add_profile_picture"),
     path("register/", views.register, name="register"),
-    # Not using anymore
-    # path("signin/", view=views.my_login, name="my_login"),
 ]
