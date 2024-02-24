@@ -11,6 +11,7 @@
                 <form method="POST" class="form-group" autocomplete="off">
                     {% csrf_token %}
                     {{ form|crispy }}
+                    <p>Already have an account? Login <a href="{% url 'login' %}">here</a></p>
                     <button type="submit" class="btn btn-success">Register</button>
                 </form>
             </div>

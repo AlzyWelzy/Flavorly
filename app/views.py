@@ -1,13 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
-from .models import UserProfileModel
-from django.contrib.auth.models import auth
 from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostForm
-
-...
 from verify_email.email_handler import send_verification_email
 from .utils import activateEmail
 
@@ -28,7 +22,6 @@ def my_account(request):
     return render(request, "app/my_account.html")
 
 
-# Create your views here.
 def register(request):
 
     if request.user.is_authenticated:
@@ -66,7 +59,7 @@ def edit_profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            return redirect("edit_profile")  # Redirect to the user's profile page
+            return redirect("dashboard")  # Redirect to the user's profile page
     else:
         form = UserProfileForm(instance=user_profile)
 
@@ -79,7 +72,7 @@ def add_profile_picture(request):
         form = AddProfilePictureForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect("edit_profile")  # Redirect to the user's profile page
+            return redirect("dashboard")  # Redirect to the user's profile page
     else:
         # form = AddProfilePictureForm(instance=request.user.userprofilemodel)
         form = AddProfilePictureForm()
