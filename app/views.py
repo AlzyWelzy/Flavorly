@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostForm
 from verify_email.email_handler import send_verification_email
 from .utils import activateEmail
+from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostForm
+from .models import FoodModel
 
 
 def index(request):
@@ -12,8 +13,13 @@ def index(request):
 
 @login_required
 def dashboard(request):
+    recipes = FoodModel.objects.filter(author=request.user)
 
-    return render(request, "app/dashboard.html")
+    print(recipes)
+
+    context = {"recipes": recipes}
+
+    return render(request, "app/dashboard.html", context)
 
 
 @login_required

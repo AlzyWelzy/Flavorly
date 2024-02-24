@@ -14,5 +14,40 @@
 {% include "app/includes/navbar.html" %}
 
 
-<p> Welcome to Your Dashboard! </p>
+
+
+
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <!-- Replace the content inside each card with your Django model data -->
+
+        {% for recipe in recipes %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{recipe.picture.url}}" class="card-img-top" alt="{{recipe.title}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{recipe.title}}</h5>
+                    <!-- You can add more information here -->
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
