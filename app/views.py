@@ -8,7 +8,9 @@ from .models import RecipeModel
 
 
 def index(request):
-    return render(request, "app/index.html")
+    recipes = RecipeModel.objects.all()
+    context = {"recipes": recipes}
+    return render(request, "app/index.html", context)
 
 
 def recipe_detail(request, pk):
@@ -48,6 +50,11 @@ def post_recipe(request):
 @login_required
 def update_recipe(request, pk):
     recipe = RecipeModel.objects.get(id=pk)
+
+    if recipe.author != request.user:
+        messages.info(request, "You can only edit your own recipes.")
+        return redirect("dashboard")
+
     if request.method == "POST":
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
@@ -65,6 +72,8 @@ def delete_recipe(request, pk):
 
     if recipe.author == request.user:
         recipe.delete()
+    else:
+        messages.info(request, "You can only delete your own recipes.")
     return redirect("dashboard")
 
 
