@@ -45,8 +45,8 @@
               </div>
               <div class="card-body text-center">
 
-                {% if user.userprofilemodel.profile_picture %}
-                  <img src="{{ user.userprofilemodel.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
+                {% if user.profile_picture %}
+                  <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
                 {% else %}
                   <p class="mb-0">No profile picture available.</p>
                 {% endif %}
