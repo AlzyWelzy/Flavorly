@@ -18,7 +18,7 @@ class UserProfileModel(AbstractUser):
         return self.username
 
 
-class FoodModel(models.Model):
+class RecipeModel(models.Model):
     author = models.ForeignKey(UserProfileModel, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()

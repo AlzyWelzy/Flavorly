@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from verify_email.email_handler import send_verification_email
 from .utils import activateEmail
-from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostForm
-from .models import FoodModel
+from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, PostRecipe
+from .models import RecipeModel
 
 
 def index(request):
@@ -13,7 +13,7 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    recipes = FoodModel.objects.filter(author=request.user)
+    recipes = RecipeModel.objects.filter(author=request.user)
 
     print(recipes)
 
@@ -25,7 +25,7 @@ def dashboard(request):
 @login_required
 def post_recipe(request):
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
+        form = PostRecipe(request.POST, request.FILES)
         if form.is_valid():
             food_post = form.save(commit=False)
             print(food_post.picture)
@@ -34,7 +34,7 @@ def post_recipe(request):
             return redirect("index")
 
     else:
-        form = PostForm()
+        form = PostRecipe()
 
     context = {"form": form}
 

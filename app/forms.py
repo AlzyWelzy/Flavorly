@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfileModel, FoodModel
+from .models import UserProfileModel, RecipeModel
 
 
 class RegisterForm(UserCreationForm):
@@ -29,7 +29,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ["first_name", "last_name", "email"]
 
 
-class PostForm(forms.ModelForm):
+class PostRecipe(forms.ModelForm):
     class Meta:
-        model = FoodModel
+        model = RecipeModel
         fields = ["title", "description", "picture"]
