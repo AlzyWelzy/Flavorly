@@ -1,5 +1,18 @@
 {% extends "base.html" %} {% load static %} {% block page_title %}Dashboard{% endblock %}
 
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'app/css/dashboard.css' %}">
+{% endblock %}
+
+{% block js_files %}
+<script defer src="{% static 'app/js/dashboard.js' %}"></script>
+{% endblock %}
+
+
 {% block content %}
-<p> Welcome to your Dashboard! </p>
+
+{% include "app/includes/navbar.html" %}
+
+
+<p> Welcome to Flavorly! </p>
 {% endblock %}

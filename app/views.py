@@ -28,10 +28,19 @@ from django.contrib.auth.models import auth
 #         return redirect("login")
 
 
-@login_required(login_url="login")
-def index(request):
+# @login_required(login_url="login")
+# def is_logged_in(request):
+#     return redirect("dashboard") if request.user.is_authenticated else False
 
+
+def index(request):
     return render(request, "app/index.html")
+
+
+@login_required(login_url="login")
+def dashboard(request):
+
+    return render(request, "app/dashboard.html")
 
 
 @login_required(login_url="login")
@@ -40,23 +49,24 @@ def my_account(request):
     return render(request, "app/my_account.html")
 
 
-def dashboard_view(request):
-    return render(request, "app/dashboard.html")
-
-
 # Create your views here.
-@user_not_authenticated
 def register(response):
+
+    if response.user.is_authenticated:
+        return redirect("dashboard")
+
     if response.method == "POST":
         form = RegisterForm(response.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
 
             UserProfileModel.objects.create(
                 user=user,
             )
 
-            login(response, user)
+            # login(response, user)
 
             return redirect("index")
 
