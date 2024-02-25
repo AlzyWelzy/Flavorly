@@ -26,7 +26,7 @@ class AddProfilePictureForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfileModel
-        fields = ["first_name", "last_name", "email"]
+        fields = ["first_name", "last_name"]
 
 
 class RecipeForm(forms.ModelForm):
