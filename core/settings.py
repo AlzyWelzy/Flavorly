@@ -170,8 +170,9 @@ EXPIRE_AFTER = "15m"
 
 MAX_RETRIES = 3
 
-REQUEST_NEW_EMAIL_TEMPLATE = "registration/request_new_email.html"
-HTML_MESSAGE_TEMPLATE = "registration/email_verification_msg.html"
+REQUEST_NEW_EMAIL_TEMPLATE = "verify_email/request_new_email.html"
+HTML_MESSAGE_TEMPLATE = "verify_email/email_verification_msg.html"
+VERIFICATION_SUCCESS_TEMPLATE = "registration/email_verification_successful.html"
 
 LOGGING = {
     "version": 1,
