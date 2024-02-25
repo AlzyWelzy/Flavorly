@@ -1,0 +1,24 @@
+{% extends "email_index.html" %}
+
+{% block content %}
+
+<div class="container" style="margin: 0 auto; padding: 30px; background-color: #4d4d4d; border-radius: 15px; text-align: center;">
+
+    <div class="row" style="margin-top: 50px;">
+        <div class="col">
+            <h1 style="font-family: 'Mulish', sans-serif; color: #ffffff; font-size: 2.5em; margin-bottom: 10px;">
+                {{ status }}
+            </h1>
+            <hr style="background-color: #ffffff; width: 100px; margin: 0 auto 20px;">
+            <p style="font-family: 'Mulish', sans-serif; color: #ffffff; font-size: 1.5em;">
+                {{ msg }}
+            </p>
+            <p style="font-family: 'Mulish', sans-serif; color: #ffffff; font-size: 1em; margin-top: 20px;">
+                {{ minor_msg }}
+            </p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

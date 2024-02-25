@@ -172,7 +172,10 @@ MAX_RETRIES = 3
 
 REQUEST_NEW_EMAIL_TEMPLATE = "verify_email/request_new_email.html"
 HTML_MESSAGE_TEMPLATE = "verify_email/email_verification_msg.html"
-VERIFICATION_SUCCESS_TEMPLATE = "registration/email_verification_successful.html"
+VERIFICATION_SUCCESS_TEMPLATE = "verify_email/email_verification_successful.html"
+VERIFICATION_FAILED_TEMPLATE = "verify_email/email_verification_failed.html"
+LINK_EXPIRED_TEMPLATE = "verify_email/link_expired.html"
+NEW_EMAIL_SENT_TEMPLATE = "verify_email/new_email_sent.html"
 
 LOGGING = {
     "version": 1,
