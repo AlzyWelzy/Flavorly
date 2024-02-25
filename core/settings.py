@@ -170,6 +170,8 @@ EXPIRE_AFTER = "15m"
 
 MAX_RETRIES = 3
 
+REQUEST_NEW_EMAIL_TEMPLATE = "registration/request_new_email.html"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
