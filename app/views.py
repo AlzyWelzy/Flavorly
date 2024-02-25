@@ -85,10 +85,14 @@ def delete_recipe(request, pk):
         return redirect("dashboard")
 
     if recipe.author == request.user:
-        recipe.delete()
+        if request.method == "POST":
+            recipe.delete()
+            messages.info(request, "Recipe deleted successfully.")
+            return redirect("dashboard")
     else:
         messages.info(request, "You can only delete your own recipes.")
-    return redirect("dashboard")
+    context = {"recipe": recipe}
+    return render(request, "app/delete_recipe.html", context)
 
 
 @login_required
