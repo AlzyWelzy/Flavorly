@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from verify_email.email_handler import send_verification_email
@@ -38,6 +38,8 @@ def post_recipe(request):
             food_post.author = user
             food_post.save()
             return redirect("dashboard")
+        else:
+            form = RecipeForm()
 
     else:
         form = RecipeForm()
@@ -49,7 +51,11 @@ def post_recipe(request):
 
 @login_required
 def update_recipe(request, pk):
-    recipe = RecipeModel.objects.get(id=pk)
+    try:
+        recipe = get_object_or_404(RecipeModel, id=pk)
+    except RecipeModel.DoesNotExist:
+        messages.info(request, "Recipe does not exist.")
+        return redirect("dashboard")
 
     if recipe.author != request.user:
         messages.info(request, "You can only edit your own recipes.")
@@ -60,6 +66,8 @@ def update_recipe(request, pk):
         if form.is_valid():
             form.save()
             return redirect("dashboard")
+        else:
+            form = RecipeForm(instance=recipe)
     else:
         form = RecipeForm(instance=recipe)
 
@@ -68,7 +76,11 @@ def update_recipe(request, pk):
 
 @login_required
 def delete_recipe(request, pk):
-    recipe = RecipeModel.objects.get(id=pk)
+    try:
+        recipe = get_object_or_404(RecipeModel, id=pk)
+    except RecipeModel.DoesNotExist:
+        messages.info(request, "Recipe does not exist.")
+        return redirect("dashboard")
 
     if recipe.author == request.user:
         recipe.delete()
