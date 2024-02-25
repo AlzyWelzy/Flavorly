@@ -4,11 +4,29 @@ from django.contrib.auth.decorators import login_required, permission_required
 from verify_email.email_handler import send_verification_email
 from .utils import activateEmail
 from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, RecipeForm
-from .models import RecipeModel
+from .models import RecipeModel, UserProfileModel
+from django.contrib.auth.models import Group
 
 
 def index(request):
     recipes = RecipeModel.objects.all()
+
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        user = get_object_or_404(UserProfileModel, id=user_id)
+        if user and request.user.is_staff:
+            try:
+                group = Group.objects.get(name="default")
+                group.user_set.remove(user)
+            except Exception:
+                pass
+
+            try:
+                group = Group.objects.get(name="mod")
+                group.user_set.remove(user)
+            except Exception:
+                pass
+
     context = {"recipes": recipes}
     return render(request, "app/index.html", context)
 
@@ -52,6 +70,7 @@ def post_recipe(request):
 
 
 @login_required
+@permission_required("app.change_recipemodel", raise_exception=True, login_url="login")
 def update_recipe(request, pk):
     try:
         recipe = get_object_or_404(RecipeModel, id=pk)
