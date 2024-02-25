@@ -39,6 +39,7 @@ def post_recipe(request):
             food_post.save()
             return redirect("dashboard")
         else:
+            messages.error(request, "Error creating recipe.")
             form = RecipeForm()
 
     else:
@@ -67,11 +68,12 @@ def update_recipe(request, pk):
             form.save()
             return redirect("dashboard")
         else:
+            messages.error(request, "Error updating recipe.")
             form = RecipeForm(instance=recipe)
     else:
         form = RecipeForm(instance=recipe)
 
-    return render(request, "app/create_post.html", {"form": form})
+    return render(request, "app/update_recipe.html", {"form": form})
 
 
 @login_required
