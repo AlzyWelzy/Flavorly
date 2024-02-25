@@ -19,9 +19,11 @@
                 <h2 class="mb-0">User Information</h2>
               </div>
               <div class="card-body">
-                <p class="mb-2"><strong>Name:</strong> {{ user.get_full_name }}</p>
-                <p class="mb-2"><strong>Username:</strong> {{ user.username }}</p>
-                <p class="mb-0"><strong>Email:</strong> {{ user.email }}</p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Name:</strong> {{ user.get_full_name }}</li>
+                  <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+                  <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                </ul>
               </div>
             </div>
 
@@ -31,9 +33,9 @@
                 <h2 class="mb-0">Actions</h2>
               </div>
               <div class="card-body">
-                <p class="mb-2"><a href="{% url 'edit_profile' %}" class="btn btn-primary btn-block">Edit Profile</a></p>
-                <p class="mb-0"><a href="{% url 'add_profile_picture' %}" class="btn btn-primary btn-block">Edit Profile Picture</a></p>
-                <p class="mb-0"><a href="{% url 'password_change' %}" class="btn btn-primary btn-block">Change Password</a></p>
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-block mb-2">Edit Profile</a>
+                <a href="{% url 'add_profile_picture' %}" class="btn btn-primary btn-block mb-2">Edit Profile Picture</a>
+                <a href="{% url 'password_change' %}" class="btn btn-primary btn-block">Change Password</a>
               </div>
             </div>
           </div>
@@ -45,13 +47,11 @@
                 <h2 class="mb-0">Profile Picture</h2>
               </div>
               <div class="card-body text-center">
-
                 {% if user.profile_picture %}
                   <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle mb-3">
                 {% else %}
                   <p class="mb-0">No profile picture available.</p>
                 {% endif %}
-
               </div>
             </div>
           </div>
