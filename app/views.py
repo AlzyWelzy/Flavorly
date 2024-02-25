@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from verify_email.email_handler import send_verification_email
 from .utils import activateEmail
 from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, RecipeForm
@@ -29,6 +29,7 @@ def dashboard(request):
 
 
 @login_required
+@permission_required("app.add_recipemodel", raise_exception=True, login_url="login")
 def post_recipe(request):
     if request.method == "POST":
         form = RecipeForm(request.POST, request.FILES)
@@ -84,7 +85,7 @@ def delete_recipe(request, pk):
         messages.info(request, "Recipe does not exist.")
         return redirect("dashboard")
 
-    if recipe.author == request.user:
+    if recipe.author == request.user or request.user.has_perm("app.delete_recipemodel"):
         if request.method == "POST":
             recipe.delete()
             messages.info(request, "Recipe deleted successfully.")
