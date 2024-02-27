@@ -158,13 +158,11 @@ def register(request):
 def edit_profile(request):
     user_profile = request.user
 
-    send_otp(request)
     if request.method == "POST":
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
-            to_be_verified = form.save(commit=False)
-            return is_verified(request, to_be_verified)
-
+            form.save()
+            return redirect("my_account")
     else:
         form = UserProfileForm(instance=user_profile)
 
@@ -188,7 +186,10 @@ def add_profile_picture(request):
 def send_otp(request):
     user = request.user
 
-    user.otp = random.randrange(100000, 999999)
+    # Generate and store OTP during user creation or when requested
+    if user.otp is None:
+        user.otp = random.randrange(100000, 999999)
+        user.save()
 
     body = f"Your OTP is {user.otp}"
     try:
@@ -207,15 +208,15 @@ def is_verified(request, to_be_verified):
     if request.method == "POST":
         print("3rd step good")
         otp = request.POST.get("otp")
-        print(request.POST)
-        print(otp)
         print(user.otp)
         if otp == str(user.otp):
             print(otp, user.otp)
-            print("4th step good")
             messages.success(request, "OTP verified.")
-            to_be_verified.save()
             print("5th step good")
+            user.first_name = request.POST.get("first_name")
+            user.last_name = request.POST.get("last_name")
+            user.otp = None
+            print(user)
             return redirect("dashboard")
 
     return render(request, "app/verify_otp.html")
