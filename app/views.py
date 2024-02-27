@@ -6,6 +6,9 @@ from .utils import activateEmail
 from .forms import RegisterForm, UserProfileForm, AddProfilePictureForm, RecipeForm
 from .models import RecipeModel, UserProfileModel
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+import random
+from django.conf import settings
 
 
 def index(request):
@@ -154,15 +157,19 @@ def register(request):
 def edit_profile(request):
     user_profile = request.user
 
-    if request.method == "POST":
-        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard")  # Redirect to the user's profile page
-    else:
-        form = UserProfileForm(instance=user_profile)
+    if is_verified(request):
 
-    return render(request, "app/edit_profile.html", {"form": form})
+        if request.method == "POST":
+            form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+            if form.is_valid():
+                form.save()
+                return redirect("dashboard")  # Redirect to the user's profile page
+        else:
+            form = UserProfileForm(instance=user_profile)
+
+        return render(request, "app/edit_profile.html", {"form": form})
+    else:
+        return redirect("login")
 
 
 @login_required
@@ -177,3 +184,37 @@ def add_profile_picture(request):
         form = AddProfilePictureForm()
 
     return render(request, "app/edit_profile.html", {"form": form})
+
+
+def is_verified(request):
+    user = request.user
+    username = user.username
+
+    otp_verify = random.randrange(100000, 999999)
+
+    body = f"Your OTP is {otp_verify}"
+    try:
+        send_mail("OTP Verification", body, settings.EMAIL_HOST_USER, [user.email])
+        print("OTP sent to your email.")
+    except Exception as e:
+        print(e)
+        return False
+    else:
+        messages.success(request, "OTP sent to your email.")
+        print("2nd step good")
+
+    if request.method == "POST":
+        print("3rd step good")
+        otp = request.POST.get("otp")
+        if otp == otp_verify:
+            print("4th step good")
+            messages.success(request, "OTP verified.")
+            return True
+        else:
+            print("5th step good")
+            messages.error(request, "OTP verification failed.")
+            return False
+    else:
+        print("6th step good")
+
+        return render(request, "app/verify_otp.html")
