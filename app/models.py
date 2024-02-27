@@ -11,6 +11,8 @@ class UserProfileModel(AbstractUser):
         upload_to="profile_picture", blank=True, null=True
     )
 
+    otp = models.IntegerField(blank=True, null=True)
+
     def get_full_name(self):
         return super().get_full_name()
 

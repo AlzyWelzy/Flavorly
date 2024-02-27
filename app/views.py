@@ -134,6 +134,7 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             inactive_user = send_verification_email(request, form)
+
             activateEmail(request, inactive_user, form.cleaned_data.get("email"))
             # user = form.save()
 
@@ -157,19 +158,17 @@ def register(request):
 def edit_profile(request):
     user_profile = request.user
 
-    if is_verified(request):
+    send_otp(request)
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            to_be_verified = form.save(commit=False)
+            return is_verified(request, to_be_verified)
 
-        if request.method == "POST":
-            form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
-            if form.is_valid():
-                form.save()
-                return redirect("dashboard")  # Redirect to the user's profile page
-        else:
-            form = UserProfileForm(instance=user_profile)
-
-        return render(request, "app/edit_profile.html", {"form": form})
     else:
-        return redirect("login")
+        form = UserProfileForm(instance=user_profile)
+
+    return render(request, "app/edit_profile.html", {"form": form})
 
 
 @login_required
@@ -186,13 +185,12 @@ def add_profile_picture(request):
     return render(request, "app/edit_profile.html", {"form": form})
 
 
-def is_verified(request):
+def send_otp(request):
     user = request.user
-    username = user.username
 
-    otp_verify = random.randrange(100000, 999999)
+    user.otp = random.randrange(100000, 999999)
 
-    body = f"Your OTP is {otp_verify}"
+    body = f"Your OTP is {user.otp}"
     try:
         send_mail("OTP Verification", body, settings.EMAIL_HOST_USER, [user.email])
         print("OTP sent to your email.")
@@ -203,18 +201,21 @@ def is_verified(request):
         messages.success(request, "OTP sent to your email.")
         print("2nd step good")
 
+
+def is_verified(request, to_be_verified):
+    user = request.user
     if request.method == "POST":
         print("3rd step good")
         otp = request.POST.get("otp")
-        if otp == otp_verify:
+        print(request.POST)
+        print(otp)
+        print(user.otp)
+        if otp == str(user.otp):
+            print(otp, user.otp)
             print("4th step good")
             messages.success(request, "OTP verified.")
-            return True
-        else:
+            to_be_verified.save()
             print("5th step good")
-            messages.error(request, "OTP verification failed.")
-            return False
-    else:
-        print("6th step good")
+            return redirect("dashboard")
 
-        return render(request, "app/verify_otp.html")
+    return render(request, "app/verify_otp.html")
