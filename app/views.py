@@ -170,6 +170,9 @@ def edit_profile(request):
                 user_profile.save()
                 user_info.save()
                 return redirect("my_account")
+            else:
+                messages.error(request, "Invalid OTP. Please try again.")
+                return redirect("edit_profile")
 
     else:
         send_otp(request)
