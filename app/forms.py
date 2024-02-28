@@ -24,9 +24,12 @@ class AddProfilePictureForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    profile_picture = forms.ImageField()
+    otp = forms.IntegerField()
+
     class Meta:
         model = UserProfileModel
-        fields = ["first_name", "last_name", "otp"]
+        fields = ["first_name", "last_name"]
 
 
 class RecipeForm(forms.ModelForm):

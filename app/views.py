@@ -163,18 +163,17 @@ def edit_profile(request):
         if form.is_valid():
             user_info = form.save(commit=False)
             user_otp = form.cleaned_data.get("otp")
+            profile_picture = form.cleaned_data.get("profile_picture")
             if user_profile.otp == user_otp:
+                user_profile.profile_picture = profile_picture
                 user_profile.otp = None
                 user_profile.save()
                 user_info.save()
                 return redirect("my_account")
-            else:
-                messages.error(request, "Invalid OTP. Please try again.")
-                return redirect("edit_profile")
-            return redirect("my_account")
+
     else:
         send_otp(request)
-        form = UserProfileForm()
+        form = UserProfileForm(instance=user_profile)
 
     return render(request, "app/edit_profile.html", {"form": form})
 
@@ -196,10 +195,8 @@ def add_profile_picture(request):
 def send_otp(request):
     user = request.user
 
-    # Generate and store OTP during user creation or when requested
-    if user.otp is None:
-        user.otp = random.randrange(100000, 999999)
-        user.save()
+    user.otp = random.randrange(100000, 999999)
+    user.save()
 
     body = f"Your OTP is {user.otp}"
     try:
