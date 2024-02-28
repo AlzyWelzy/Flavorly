@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -164,7 +165,10 @@ def edit_profile(request):
             user_info = form.save(commit=False)
             user_otp = form.cleaned_data.get("otp")
             profile_picture = form.cleaned_data.get("profile_picture")
-            if user_profile.otp == user_otp:
+            if (
+                user_profile.otp == user_otp
+                and timezone.now() < user_profile.valid_till
+            ):
                 user_profile.profile_picture = profile_picture
                 user_profile.otp = None
                 user_profile.save()
@@ -199,9 +203,10 @@ def send_otp(request):
     user = request.user
 
     user.otp = random.randrange(100000, 999999)
+    user.valid_till = timezone.now() + timezone.timedelta(minutes=15)
     user.save()
 
-    body = f"Your OTP is {user.otp}"
+    body = f"Your OTP is {user.otp}. It will expire in 15 minutes."
     try:
         send_mail("OTP Verification", body, settings.EMAIL_HOST_USER, [user.email])
         print("OTP sent to your email.")

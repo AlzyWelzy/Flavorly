@@ -12,6 +12,7 @@ class UserProfileModel(AbstractUser):
     )
 
     otp = models.IntegerField(blank=True, null=True)
+    valid_till = models.DateTimeField(blank=True, null=True)
 
     def get_full_name(self):
         return super().get_full_name()
