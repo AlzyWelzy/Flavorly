@@ -29,7 +29,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfileModel
-        fields = ["first_name", "last_name"]
+        fields = ["first_name", "last_name", "email"]
 
 
 class RecipeForm(forms.ModelForm):
