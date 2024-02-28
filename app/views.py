@@ -161,10 +161,20 @@ def edit_profile(request):
     if request.method == "POST":
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
-            form.save()
+            user_info = form.save(commit=False)
+            user_otp = form.cleaned_data.get("otp")
+            if user_profile.otp == user_otp:
+                user_profile.otp = None
+                user_profile.save()
+                user_info.save()
+                return redirect("my_account")
+            else:
+                messages.error(request, "Invalid OTP. Please try again.")
+                return redirect("edit_profile")
             return redirect("my_account")
     else:
-        form = UserProfileForm(instance=user_profile)
+        send_otp(request)
+        form = UserProfileForm()
 
     return render(request, "app/edit_profile.html", {"form": form})
 
