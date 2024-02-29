@@ -35,8 +35,8 @@ def index(request):
     return render(request, "app/index.html", context)
 
 
-def recipe_detail(request, pk):
-    recipe = RecipeModel.objects.get(id=pk)
+def recipe_detail(request, slug):
+    recipe = RecipeModel.objects.get(slug=slug)
     context = {"recipe": recipe}
     return render(request, "app/recipe_detail.html", context)
 
@@ -75,9 +75,9 @@ def post_recipe(request):
 
 @login_required
 @permission_required("app.change_recipemodel", raise_exception=True, login_url="login")
-def update_recipe(request, pk):
+def update_recipe(request, slug):
     try:
-        recipe = get_object_or_404(RecipeModel, id=pk)
+        recipe = get_object_or_404(RecipeModel, slug=slug)
     except RecipeModel.DoesNotExist:
         messages.info(request, "Recipe does not exist.")
         return redirect("dashboard")
@@ -101,9 +101,9 @@ def update_recipe(request, pk):
 
 
 @login_required
-def delete_recipe(request, pk):
+def delete_recipe(request, slug):
     try:
-        recipe = get_object_or_404(RecipeModel, id=pk)
+        recipe = get_object_or_404(RecipeModel, slug=slug)
     except RecipeModel.DoesNotExist:
         messages.info(request, "Recipe does not exist.")
         return redirect("dashboard")

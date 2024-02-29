@@ -21,12 +21,12 @@
                             <h5 class="card-title">{{recipe.title}}</h5>
                             <!-- Add more information here if needed -->
                             <div class="text-center mt-3">
-                                <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-outline-primary btn-sm">View Recipe</a>
+                                <a href="{% url 'recipe_detail' recipe.slug %}" class="btn btn-outline-primary btn-sm">View Recipe</a>
                                 {% if user == recipe.author or perms.app.change_recipemodel %}
-                                <a href="{% url 'update_recipe' recipe.id %}" class="btn btn-outline-primary btn-sm">Update Recipe</a>
+                                <a href="{% url 'update_recipe' recipe.slug %}" class="btn btn-outline-primary btn-sm">Update Recipe</a>
                                 {% endif %}
                                 {% if user == recipe.author or perms.app.delete_recipemodel %}
-                                <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-outline-danger btn-sm">Delete Recipe</a>
+                                <a href="{% url 'delete_recipe' recipe.slug %}" class="btn btn-outline-danger btn-sm">Delete Recipe</a>
                                 {% endif %}
                                 {% if user.is_staff %}
                                 <form method="post">
