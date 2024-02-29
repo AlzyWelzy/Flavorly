@@ -13,4 +13,6 @@ urlpatterns = [
     path("add_profile_picture/", views.add_profile_picture, name="add_profile_picture"),
     path("register/", views.register, name="register"),
     path("verify_otp", views.is_verified, name="verify_otp"),
+    path("posts", views.posts, name="posts"),
+    path("posts/<slug:slug>", views.post_details, name="post_details"),
 ]

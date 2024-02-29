@@ -199,6 +199,16 @@ def add_profile_picture(request):
     return render(request, "app/edit_profile.html", {"form": form})
 
 
+def posts(requests):
+
+    return render(requests, "app/posts.html")
+
+
+def post_details(requests):
+
+    return render(requests, "app/post_details.html")
+
+
 def send_otp(request):
     user = request.user
 
